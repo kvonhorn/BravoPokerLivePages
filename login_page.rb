@@ -14,14 +14,14 @@ module LoginPage
 
 
   def logged_in?
-    login_buttons = @driver.find_elements(:id, @login_button_id)
-    return login_buttons.any?{ |button| button.displayed? }
+    login_buttons = @driver.find_elements(:id, @@login_button_id)
+    return login_buttons.none?{ |button| button.displayed? }
   end
 
 
   def click_login_button
-    login_buttons = @driver.find_elements(:id, @login_button_id)
-    visible_button = login_buttons.find{ |button| button.visible? }
+    login_buttons = @driver.find_elements(:id, @@login_button_id)
+    visible_button = login_buttons.find{ |button| button.displayed? }
     visible_button.click if visible_button
 
     self
@@ -41,7 +41,7 @@ module LoginPage
 
 
   def login_as(username, password, timeout=15)
-    #return self if logged_in?
+    return self if logged_in?
 
     self.click_login_button
     wait = Selenium::WebDriver::Wait.new(timeout: timeout)
