@@ -1,9 +1,15 @@
 # Get the live info off of a Bravo Poker cash game page
 
 require_relative '../venues_page.rb'
+require 'logger'
 require 'json'
 require 'optparse'
 require 'selenium-webdriver'
+
+
+@logger = Logger.new(STDOUT)
+@logger.level = Logger::DEBUG
+@logger.progname = $PROGRAM_NAME
 
 
 options = {}
@@ -43,6 +49,7 @@ if not (options[:uid] and options[:pw])
   end
 end
 
+
 # TODO: Get these from the environment?
 uid = options[:uid]
 pw = options[:pw]
@@ -50,7 +57,7 @@ pw = options[:pw]
 
 # Set up Chrome
 chromedriver_path = Selenium::WebDriver::Chrome.driver_path=`which chromedriver`.chomp
-puts "Using chromedriver at #{chromedriver_path}"
+@logger.debug "Using chromedriver at #{chromedriver_path}"
 
 capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
   'chromeOptions' => {
@@ -69,16 +76,17 @@ end
 
 # Get the home page
 home_page = VenuesPage.new(@driver)
-puts "Getting home page"
+@logger.info "Getting home page"
 home_page.get
-puts "Current URL: #{@driver.current_url}"
+#@logger.info "Current URL: #{@driver.current_url}"
 
 
 # TODO: check to see if logged in. Log in if not
 logged_in = home_page.logged_in?
-puts "Logged in? #{logged_in}"
+#@logger.debug "Logged in? #{logged_in}"
+home_page.login_as(uid, pw)
 #require 'irb'; binding.irb
-#home_page.login_as(uid, pw)
+#@driver.save_screenshot 'post_login.png'
 @driver.close; @driver.quit; @driver_quit_called = true; puts 'Sleeping 10'; sleep 10; exit 1
 # TODO: Find the link on the page like poker_room_name and click it
 # TODO: Scrape the live info
