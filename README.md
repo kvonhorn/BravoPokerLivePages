@@ -9,5 +9,5 @@ execute:
 
 ```
 bundle install
-bundle exec ruby util/get_live_info.rb
+bundle exec ruby util/get_live_info.rb -u email@address.com -p "password" -r "poker_room_name"
 ```
