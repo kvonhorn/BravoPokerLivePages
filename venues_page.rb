@@ -4,6 +4,8 @@
 
 require_relative './bravopoker_page.rb'
 require_relative './login_page.rb'
+require_relative './poker_room_page.rb'
+
 
 class VenuesPage < BravoPokerPage
 
@@ -13,13 +15,6 @@ class VenuesPage < BravoPokerPage
 
   attr_reader :base_url
 
-=begin
-2.4.1 :115 > @driver.execute_script("arguments[0].scrollIntoView();", ameristar[0])
- => nil
-2.4.1 :116 > ameristar[0].click
- => nil
-
-=end
 
   def initialize(driver, baseurl=@@base_url)
     super(driver, baseurl)
@@ -28,8 +23,31 @@ class VenuesPage < BravoPokerPage
 
   def find_tag_containing_text(tag, text)
     tags = @driver.find_elements(:xpath,
-                                 "//#{tag}[contains(text(),#{text.strip})]")
+                                 "//#{tag}[contains(text(),'#{text.strip}')]")
     tags
+  end
+  
+  
+  # Click the first link containing the supplied text. Returns a PokerRoomPage
+  #   if the text was found, and self if the text was not found.
+  def click_casino_name(casino_name)
+    page_out = nil
+    casinos = find_tag_containing_text('a', casino_name)
+    
+    if casinos.length > 0
+      # TODO: Put this into a utility method?
+      @driver.execute_script('arguments[0].scrollIntoView();', casinos[0])
+      casinos[0].click
+ 
+      baseurl = Addressable::URI.parse(@driver.current_url).path
+      page_out = PokerRoomPage.new(@driver, baseurl)
+    else
+      # Click nothing
+      # TODO: Log a message that there was nothing to click?
+      page_out = self
+    end
+    
+    page_out
   end
   
 end
