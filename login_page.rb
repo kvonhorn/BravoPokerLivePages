@@ -46,6 +46,7 @@ module LoginPage
     self.click_login_button
     wait = Selenium::WebDriver::Wait.new(timeout: timeout)
     modal = wait.until { @driver.find_element(:id, @@login_modal_id) }
+    wait.until{ modal.displayed? }
 
     # NOTE: I have to make sure I have Chromedriver 2.31 installed
     # before I can call send_keys
@@ -55,6 +56,7 @@ module LoginPage
     ##modal.find_element(:id, @@password_textbox_id).
     ##  clear.send_keys(password)
 
+    puts "Login modal not visible" if not modal # TODO: Use a logger instead
     set_text_via_javascript(@@email_textbox_id, username)
     set_text_via_javascript(@@password_textbox_id, password)
     modal.find_element(:xpath, @@login_to_your_account_button).click
