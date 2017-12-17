@@ -2,6 +2,7 @@
 
 require_relative './bravopoker_page.rb'
 
+module BravoPokerLivePages
 
 class PokerRoomPage < BravoPokerPage
   
@@ -44,4 +45,6 @@ class PokerRoomPage < BravoPokerPage
     live_info
   end
   
+end
+
 end

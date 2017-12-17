@@ -96,7 +96,7 @@ end
 
 
 # Get the home page
-home_page = VenuesPage.new(@driver)
+home_page = BravoPokerLivePages::VenuesPage.new(@driver)
 @logger.info "Getting home page"
 home_page.get
 @logger.info "Current URL: #{@driver.current_url}"

@@ -1,5 +1,7 @@
 # Models the Login button and dialog on the /venues page
 
+module BravoPokerLivePages
+
 module LoginPage
 
   @@login_button_id = 'nav-login'
@@ -65,3 +67,4 @@ module LoginPage
   end
 end
 
+end

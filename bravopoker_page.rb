@@ -2,6 +2,8 @@
 
 require 'addressable'
 
+module BravoPokerLivePages
+
 class BravoPokerPage
 
   @@url = 'http://www.bravopokerlive.com'
@@ -22,3 +24,5 @@ class BravoPokerPage
   end
 
 end
+
+end #module

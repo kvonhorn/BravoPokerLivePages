@@ -7,6 +7,8 @@ require_relative './login_page.rb'
 require_relative './poker_room_page.rb'
 
 
+module BravoPokerLivePages
+
 class VenuesPage < BravoPokerPage
 
   include LoginPage
@@ -50,4 +52,6 @@ class VenuesPage < BravoPokerPage
     page_out
   end
   
+end
+
 end
